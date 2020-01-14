@@ -1,7 +1,6 @@
 package com.cbposter.utils.image.wrapper.merge.template;
 
 
-
 import com.cbposter.utils.base.ImageOperateUtil;
 import com.cbposter.utils.image.util.FontUtil;
 import com.cbposter.utils.image.wrapper.create.ImgCreateOptions;
@@ -19,59 +18,92 @@ import java.util.List;
 public class QrCodeCardTemplateBuilder {
 
 
-    public static List<IMergeCell> build(BufferedImage logo,
+    public static List<IMergeCell> build(BufferedImage image1,
                                          String name,
                                          List<String> desc,
                                          BufferedImage qrcode,
                                          String title) {
         List<IMergeCell> list = new ArrayList<>();
 
+        //写入背景色
         list.add(buildBg());
-        list.add(buildTextLogo(logo));
+        //写入第一个图片
+        list.add(buildImage(image1));
+        //写入文字
         list.addAll(buildTextInfo(name, desc));
+        //写入线条
         list.add(buildLine());
-        list.add(buildQrCode(qrcode));
-        list.add(buildQrCodeInfo());
+        //写入第二个图片
+        list.add(buildImage2(qrcode));
+        //写入第二部分文字
+        list.add(buildImageInfo("标 题 2"));
+        //写入图片大小
         list.add(buildRectInfo());
+        //写入标题
         list.addAll(buildTitle(title));
-
-
         return list;
     }
 
+    /**
+     * 设置背景色(宽，高，颜色，x，y)
+     *
+     * @return
+     */
     private static RectFillCell buildBg() {
+        //创建矩形框
         RectFillCell rectFillCell = RectFillCell.builder()
+                //设置宽高和xy
                 .w(QrCodeCardTemplate.w)
                 .h(QrCodeCardTemplate.h)
                 .x(0)
                 .y(0)
+                //设置颜色
                 .color(QrCodeCardTemplate.bg_color)
                 .build();
         return rectFillCell;
     }
 
 
-    private static ImgCell buildTextLogo(BufferedImage logo) {
-        // logo
+    /**
+     * 设置图片(图片内容，x位置，y位置，宽，高)
+     *
+     * @param logo
+     * @return
+     */
+    private static ImgCell buildImage(BufferedImage logo) {
         logo = ImageOperateUtil.makeRoundImg(logo, false, null);
         return ImgCell.builder()
+                //写入图片
                 .img(logo)
+                //写入x的位置
                 .x(((QrCodeCardTemplate.text_size - QrCodeCardTemplate.text_logo_size) >>> 1) + QrCodeCardTemplate.text_x)
+                //写入y的位置
                 .y(QrCodeCardTemplate.text_y)
+                //写入宽高
                 .w(QrCodeCardTemplate.text_logo_size)
                 .h(QrCodeCardTemplate.text_logo_size)
                 .build();
     }
 
 
+    /**
+     * 设置文字内容(具体内容，字体，字体位置，文本颜色，文本开始x，y，结束x，y，垂直或水平，对齐方式)
+     *
+     * @param name
+     * @param desc
+     * @return
+     */
     private static List<TextCell> buildTextInfo(String name, List<String> desc) {
         // 文案
+        //获取字体
         FontMetrics nameFontMetrics = FontUtil.getFontMetric(QrCodeCardTemplate.text_nameFont);
+        //字体位置
         int nameY = QrCodeCardTemplate.text_y + QrCodeCardTemplate.text_logo_size
                 + QrCodeCardTemplate.text_line_space
                 + nameFontMetrics.getHeight()
                 + nameFontMetrics.getDescent();
 
+        //文本单位
         TextCell nameCell = new TextCell();
         nameCell.setFont(QrCodeCardTemplate.text_nameFont);
         nameCell.setColor(QrCodeCardTemplate.text_nameFont_color);
@@ -80,7 +112,9 @@ public class QrCodeCardTemplateBuilder {
         nameCell.setEndX(QrCodeCardTemplate.text_x + QrCodeCardTemplate.text_size);
         nameCell.setEndY(nameY + nameFontMetrics.getHeight());
         nameCell.addText(name);
+        //垂直或水平
         nameCell.setDrawStyle(ImgCreateOptions.DrawStyle.HORIZONTAL);
+        //对齐方式
         nameCell.setAlignStyle(ImgCreateOptions.AlignStyle.CENTER);
 
 
@@ -104,20 +138,27 @@ public class QrCodeCardTemplateBuilder {
     }
 
 
+    /**
+     * 创建线条（线条的宽，高，颜色）
+     *
+     * @return
+     */
     private static LineCell buildLine() {
         // line
+        //创建线条
         return LineCell.builder()
+                //设置线条的x,y,宽高
                 .x1(QrCodeCardTemplate.line_x)
                 .y1(QrCodeCardTemplate.line_y + QrCodeCardTemplate.line_h)
                 .x2(QrCodeCardTemplate.line_x + QrCodeCardTemplate.line_w)
                 .y2(QrCodeCardTemplate.line_y)
+                //颜色
                 .color(QrCodeCardTemplate.line_color)
                 .build();
     }
 
 
-
-    private static ImgCell buildQrCode(BufferedImage qrcode) {
+    private static ImgCell buildImage2(BufferedImage qrcode) {
 
         int qrCodeX = QrCodeCardTemplate.qrcode_x + ((QrCodeCardTemplate.qrcode_info_w - QrCodeCardTemplate.qrcode_size) >>> 1);
 
@@ -131,15 +172,14 @@ public class QrCodeCardTemplateBuilder {
     }
 
 
-
-    private static TextCell buildQrCodeInfo() {
+    private static TextCell buildImageInfo(String textInfo) {
         Font font = QrCodeCardTemplate.qrcode_info_font;
         FontMetrics fontMetrics = FontUtil.getFontMetric(font);
         int startY = QrCodeCardTemplate.qrcode_y
                 + QrCodeCardTemplate.qrcode_size
                 + QrCodeCardTemplate.qrcode_info_padding
                 + fontMetrics.getHeight();
-
+        //文本单元
         TextCell textCell = new TextCell();
         textCell.setStartX(QrCodeCardTemplate.qrcode_x);
         textCell.setEndX(QrCodeCardTemplate.w - QrCodeCardTemplate.border_space);
@@ -148,12 +188,16 @@ public class QrCodeCardTemplateBuilder {
         textCell.setFont(font);
         textCell.setColor(QrCodeCardTemplate.qrcode_info_color);
         textCell.setAlignStyle(ImgCreateOptions.AlignStyle.CENTER);
-        textCell.addText("点击或长按关注");
+        textCell.addText(textInfo);
         return textCell;
     }
 
 
-
+    /**
+     * 设置边界（颜色，x，y，宽，高）
+     *
+     * @return
+     */
     private static RectCell buildRectInfo() {
         RectCell rectCell = new RectCell();
         rectCell.setColor(Color.LIGHT_GRAY);
@@ -166,7 +210,14 @@ public class QrCodeCardTemplateBuilder {
     }
 
 
+    /**
+     * 设置标题（字体相关属性，宽度，位置，矩形框的宽高xy，字体颜色）
+     *
+     * @param title
+     * @return
+     */
     private static List<IMergeCell> buildTitle(String title) {
+        //字体
         Font titleFont = QrCodeCardTemplate.title_font;
         FontMetrics metrics = FontUtil.getFontMetric(titleFont);
 
@@ -177,8 +228,9 @@ public class QrCodeCardTemplateBuilder {
 
         int tw = metrics.stringWidth(title);
 
+        //填充矩形框
         RectFillCell rectFillCell = RectFillCell.builder()
-                .x((w - tw - metrics.getHeight() - metrics.getHeight()) >>> 1 )
+                .x((w - tw - metrics.getHeight() - metrics.getHeight()) >>> 1)
                 .y(spacing >>> 1)
                 .w(tw + metrics.getHeight() * 2)
                 .h(spacing)

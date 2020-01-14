@@ -27,11 +27,11 @@ public class ImgMergeWrapperTest {
     public void testTemplate() throws IOException {
         BufferedImage logo = ImageLoadUtil.getImageByPath("D:\\home\\1.jpg");
         BufferedImage qrCode = ImageLoadUtil.getImageByPath("D:\\home\\2.jpg");
-        String name = "小灰灰Blog";
-        List<String> desc = Arrays.asList("我是一灰灰，一匹不吃羊的狼", "专注码农技术分享");
+        String name = "小标题";
+        List<String> desc = Arrays.asList("2020春节快乐", "本图片由cbPoster自动合成");
 
         int w = QrCodeCardTemplate.w, h = QrCodeCardTemplate.h;
-        List<IMergeCell> list = QrCodeCardTemplateBuilder.build(logo, name, desc, qrCode, "微 信 公 众 号");
+        List<IMergeCell> list = QrCodeCardTemplateBuilder.build(logo, name, desc, qrCode, "这 里 是 标 题");
 
         BufferedImage bg = ImgMergeWrapper.merge(list, w, h);
 
