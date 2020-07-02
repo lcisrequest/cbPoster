@@ -14,16 +14,22 @@ import java.io.InputStream;
  */
 public class FontUtil {
 
+    //默认字体
     public static Font DEFAULT_FONT;
 
+    //大号默认字体
     public static Font BIG_DEFAULT_FONT;
 
+    //大号加粗默认字体
     public static Font BIG_BOLD_DEFAULT_FONT;
 
+    //大斜体默认字体
     public static Font BIG_ITALIC_DEFAULT_FONT;
 
+    //较小的默认字体
     public static Font SMALLER_DEFAULT_FONT;
 
+    //较小的默认斜体字体
     public static Font SMALLER_DEFAULT_ITALIC_FONT;
 
     static {

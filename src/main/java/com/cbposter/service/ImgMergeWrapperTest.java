@@ -9,11 +9,9 @@ import com.cbposter.utils.image.wrapper.merge.template.QrCodeCardTemplateBuilder
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

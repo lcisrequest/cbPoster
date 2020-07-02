@@ -18,9 +18,9 @@ import javax.servlet.annotation.WebServlet;
         // IP黑名单 (存在共同时，deny优先于allow)
         @WebInitParam(name = "deny", value = ""),
         // 用户名
-        @WebInitParam(name = "loginUsername", value = "rtpacs"),
+        @WebInitParam(name = "loginUsername", value = "cbposter"),
         // 密码
-        @WebInitParam(name = "loginPassword", value = "81977100"),
+        @WebInitParam(name = "loginPassword", value = "cbposter"),
         // 禁用HTML页面上的“Reset All”功能
         @WebInitParam(name = "resetEnable", value = "false") })
 @SuppressWarnings("serial")

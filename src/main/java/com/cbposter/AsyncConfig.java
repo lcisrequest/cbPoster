@@ -18,7 +18,7 @@ public class AsyncConfig {
         executor.setMaxPoolSize(100);        // 设置最大线程数
         executor.setQueueCapacity(20);      // 设置队列容量
         executor.setKeepAliveSeconds(60);   // 设置线程活跃时间（秒）
-        executor.setThreadNamePrefix("rtpacs-default-thread");  // 设置默认线程名称
+        executor.setThreadNamePrefix("test");  // 设置默认线程名称
         //executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());// 设置拒绝策略
         executor.setWaitForTasksToCompleteOnShutdown(true); // 等待所有任务结束后再关闭线程池
         return executor;
