@@ -1,7 +1,6 @@
 package com.cbposter.dao;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @Auther: lc
@@ -10,12 +9,27 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "skill")
 public class Skill {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(name = "name")
     private String name;
-    private double additionalDamage;
-    private double hitsTimes;
-    private int type;
+
+    @Column(name = "additionaldamage")
+    private String additionalDamage;
+
+    @Column(name = "hitstimes")
+    private String hitsTimes;
+
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "speed")
     private int speed;
+
+    @Column(name = "name")
     private String specialEffects;
 
     public int getSpeed() {
@@ -50,27 +64,27 @@ public class Skill {
         this.name = name;
     }
 
-    public double getAdditionalDamage() {
+    public String getAdditionalDamage() {
         return additionalDamage;
     }
 
-    public void setAdditionalDamage(double additionalDamage) {
+    public void setAdditionalDamage(String additionalDamage) {
         this.additionalDamage = additionalDamage;
     }
 
-    public double getHitsTimes() {
+    public String getHitsTimes() {
         return hitsTimes;
     }
 
-    public void setHitsTimes(double hitsTimes) {
+    public void setHitsTimes(String hitsTimes) {
         this.hitsTimes = hitsTimes;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 }
