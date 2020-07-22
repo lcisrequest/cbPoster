@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.websocket.Session;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -30,7 +31,7 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public static Map<Session, User> userMap = new HashMap<>();
+    public static Map<Session, Role> userMap = new HashMap<>();
 
     //获取角色初始技能
     public Skill getCharacterInitialSkills() {
@@ -102,14 +103,20 @@ public class UserService {
         return "注册成功，请重新登录";
     }
 
-    public String loginUser(String username, String password, Session session) {
+    public String loginUser(String username, String password, Session session) throws IOException {
         User user = userRepository.findUserByUsername(username);
         if (user == null) {
-            return "登录失败，该用户名不存在";
+            session.getBasicRemote().sendText("登录失败，该用户名不存在");
         }
         String thepassword = user.getPassword();
         if (thepassword.equals(password)) {
-            userMap.put(session, user);
+            Role role = user.getRole();
+            if (role == null) {
+                role = getInitializeRole();
+                user.setRole(role);
+                //todo role入库
+            }
+            userMap.put(session, user.getRole());
             return "登录成功";
         } else {
             return "登录失败，密码错误";

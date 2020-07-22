@@ -1,7 +1,11 @@
 package com.cbposter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Auther: lc
@@ -23,6 +27,18 @@ public class User {
 
     @Column(name = "createtime")
     private Timestamp createTime;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user")
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public int getId() {
         return id;

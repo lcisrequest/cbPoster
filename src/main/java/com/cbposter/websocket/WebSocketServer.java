@@ -74,7 +74,7 @@ public class WebSocketServer {
      * @param session 可选的参数
      */
     @OnMessage
-    public void onMessage(String message, Session session) {
+    public void onMessage(String message, Session session) throws IOException {
         System.out.println("client message=" + message);
         if (message != null && !"".equals(message)) {
             String[] param = message.split("-");

@@ -2,7 +2,12 @@ package com.cbposter.model;
 
 import com.cbposter.model.Goods;
 import com.cbposter.model.Skill;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.util.List;
 
 /**
@@ -35,6 +40,12 @@ public class Role {
     //技能
     private List<Skill> skills;
 
+    @JsonIgnore
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "userid")
+    private User user;
+
+
     public void showInfo() {
         System.out.println("-----------人物信息----------");
         System.out.println("姓名: " + name);
@@ -45,6 +56,14 @@ public class Role {
         System.out.println("攻击: " + attack);
         System.out.println("防御: " + defense);
         System.out.println("血量: " + blood);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getSex() {
