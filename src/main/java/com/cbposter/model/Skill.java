@@ -1,4 +1,4 @@
-package com.cbposter.dao;
+package com.cbposter.model;
 
 import javax.persistence.*;
 
@@ -29,8 +29,20 @@ public class Skill {
     @Column(name = "speed")
     private int speed;
 
-    @Column(name = "name")
+    @Column(name = "specialeffects")
     private String specialEffects;
+
+    //稀有度
+    @Column(name = "rarity")
+    private int rarity;
+
+    public int getRarity() {
+        return rarity;
+    }
+
+    public void setRarity(int rarity) {
+        this.rarity = rarity;
+    }
 
     public int getSpeed() {
         return speed;

@@ -13,9 +13,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -35,7 +33,7 @@ public class WebSocketServer {
     private static final String loggerName = WebSocketServer.class.getName();
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
     public static Map<String, List<Session>> electricSocketMap = new ConcurrentHashMap<String, List<Session>>();
-    public static List<String> sessionIdList = new ArrayList<>();
+    public static Set<String> sessionIdList = new HashSet<>();
 
     /**
      * 连接建立成功调用的方法
@@ -55,7 +53,8 @@ public class WebSocketServer {
 
         session.getBasicRemote().sendText("欢迎链接lc的武侠世界\r\n");
         session.getBasicRemote().sendText("请输入正确指令进行操作\r\n");
-        session.getBasicRemote().sendText("1:创建新角色  2:登录已有角色(暂不支持)\r\n");
+        session.getBasicRemote().sendText("1:注册新账户  2:登录已有账户\r\n");
+        session.getBasicRemote().sendText("注册(登录)格式:1(2)-用户名-密码\r\n");
     }
 
     /**
@@ -75,17 +74,22 @@ public class WebSocketServer {
      * @param session 可选的参数
      */
     @OnMessage
-    public void onMessage(String message, Session session) throws IOException {
+    public void onMessage(String message, Session session) {
         System.out.println("client message=" + message);
-        if ("1".equals(message)) {
-            if (!sessionIdList.contains(session.getId())) {
-                session.getBasicRemote().sendText("创建成功，正在随机生成角色数据");
-                sessionIdList.add(session.getId());
+        if (message != null && !"".equals(message)) {
+            String[] param = message.split("-");
+            if (param.length == 3) {
+                String flag = param[0];
+                String username = param[1];
+                String password = param[2];
+                if ("1".equals(flag)) {
+                    userService.createUser(username, password);
+                } else if ("2".equals(flag)) {
+                    userService.loginUser(username, password,session);
+                }
             }
-        } else if ("2".equals(message)) {
-            session.getBasicRemote().sendText("暂不支持角色登录");
-        } else {
         }
+
     }
 
     /**

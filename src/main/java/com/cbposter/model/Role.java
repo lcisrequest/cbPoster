@@ -1,4 +1,7 @@
-package com.cbposter.dao;
+package com.cbposter.model;
+
+import com.cbposter.model.Goods;
+import com.cbposter.model.Skill;
 
 import java.util.List;
 
@@ -9,6 +12,8 @@ import java.util.List;
 public class Role {
 
     private int id;
+
+    private int sex;
     //姓名
     private String name;
     //身份
@@ -29,6 +34,26 @@ public class Role {
     private List<Goods> goods;
     //技能
     private List<Skill> skills;
+
+    public void showInfo() {
+        System.out.println("-----------人物信息----------");
+        System.out.println("姓名: " + name);
+        System.out.println("性别: " + (sex == 1 ? "男" : "女"));
+        System.out.println("身份: " + identity);
+        System.out.println("相貌: " + looks);
+        System.out.println("钱币: " + money);
+        System.out.println("攻击: " + attack);
+        System.out.println("防御: " + defense);
+        System.out.println("血量: " + blood);
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
 
     public String getIdentity() {
         return identity;

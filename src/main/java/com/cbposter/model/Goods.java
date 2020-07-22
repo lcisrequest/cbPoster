@@ -1,4 +1,4 @@
-package com.cbposter.dao;
+package com.cbposter.model;
 
 /**
  * @Auther: lc
